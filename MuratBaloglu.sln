@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{BC589BF6-5468-470F-A18E-2D81287C6D79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuratBaloglu.API", "MuratBaloglu.API\MuratBaloglu.API.csproj", "{86657AAA-52AC-4CB0-9A7F-AC18CB7D11FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D1EED4C9-FEB7-4D85-8BAC-85F72639567A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuratBaloglu.Persistence", "MuratBaloglu.Persistence\MuratBaloglu.Persistence.csproj", "{34DD84BB-6FE3-490E-9626-36E16A8A46B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuratBaloglu.Infrastructure", "MuratBaloglu.Infrastructure\MuratBaloglu.Infrastructure.csproj", "{FDE94133-0685-4361-B43E-85342814720A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{BAEC0834-3492-4998-8796-C0B9A1697EFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuratBaloglu.Domain", "MuratBaloglu.Domain\MuratBaloglu.Domain.csproj", "{63B85E13-40E9-4F64-A2C2-E693F7844AD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuratBaloglu.Application", "MuratBaloglu.Application\MuratBaloglu.Application.csproj", "{E5AAEB67-784B-4F0C-96AD-34A11754A1B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86657AAA-52AC-4CB0-9A7F-AC18CB7D11FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86657AAA-52AC-4CB0-9A7F-AC18CB7D11FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86657AAA-52AC-4CB0-9A7F-AC18CB7D11FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86657AAA-52AC-4CB0-9A7F-AC18CB7D11FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34DD84BB-6FE3-490E-9626-36E16A8A46B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34DD84BB-6FE3-490E-9626-36E16A8A46B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34DD84BB-6FE3-490E-9626-36E16A8A46B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34DD84BB-6FE3-490E-9626-36E16A8A46B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE94133-0685-4361-B43E-85342814720A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE94133-0685-4361-B43E-85342814720A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE94133-0685-4361-B43E-85342814720A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE94133-0685-4361-B43E-85342814720A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B85E13-40E9-4F64-A2C2-E693F7844AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B85E13-40E9-4F64-A2C2-E693F7844AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B85E13-40E9-4F64-A2C2-E693F7844AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B85E13-40E9-4F64-A2C2-E693F7844AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5AAEB67-784B-4F0C-96AD-34A11754A1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AAEB67-784B-4F0C-96AD-34A11754A1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AAEB67-784B-4F0C-96AD-34A11754A1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AAEB67-784B-4F0C-96AD-34A11754A1B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{86657AAA-52AC-4CB0-9A7F-AC18CB7D11FF} = {BC589BF6-5468-470F-A18E-2D81287C6D79}
+		{34DD84BB-6FE3-490E-9626-36E16A8A46B5} = {D1EED4C9-FEB7-4D85-8BAC-85F72639567A}
+		{FDE94133-0685-4361-B43E-85342814720A} = {D1EED4C9-FEB7-4D85-8BAC-85F72639567A}
+		{63B85E13-40E9-4F64-A2C2-E693F7844AD1} = {BAEC0834-3492-4998-8796-C0B9A1697EFD}
+		{E5AAEB67-784B-4F0C-96AD-34A11754A1B1} = {BAEC0834-3492-4998-8796-C0B9A1697EFD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B8F32FA-49CC-487B-A1ED-33BAF8E69CFB}
+	EndGlobalSection
+EndGlobal
