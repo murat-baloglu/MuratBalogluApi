@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Domain.Entities;
 using MuratBaloglu.Domain.Entities.Common;
+using MuratBaloglu.Domain.Entities.Identity;
 
 namespace MuratBaloglu.Persistence.Contexts
 {
-    public class MuratBalogluDbContext : DbContext
+    public class MuratBalogluDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public MuratBalogluDbContext(DbContextOptions options) : base(options)
         {
@@ -46,6 +49,8 @@ namespace MuratBaloglu.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<BlogImageFile>()
                 .HasOne(bif => bif.Blog)
                 .WithMany(b => b.BlogImageFiles)

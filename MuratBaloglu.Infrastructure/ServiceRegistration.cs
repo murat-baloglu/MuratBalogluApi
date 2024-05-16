@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MuratBaloglu.Application.Abstractions.Storage;
+using MuratBaloglu.Application.Abstractions.Token;
 using MuratBaloglu.Infrastructure.Enums;
 using MuratBaloglu.Infrastructure.Services.Storage;
 using MuratBaloglu.Infrastructure.Services.Storage.Azure;
 using MuratBaloglu.Infrastructure.Services.Storage.Local;
+using MuratBaloglu.Infrastructure.Services.Token;
 
 namespace MuratBaloglu.Infrastructure
 {
@@ -13,6 +15,7 @@ namespace MuratBaloglu.Infrastructure
         {
             services.AddScoped<IStorageService, StorageService>();
             //services.AddScoped<IStorage, LocalStorage>();
+            services.AddScoped<ITokenHandler, TokenHandler>();
         }
 
         //Bunu kullan. Clean Code olan bu.

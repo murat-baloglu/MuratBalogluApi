@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MuratBaloglu.Application.Abstractions.Services;
+using MuratBaloglu.Application.Abstractions.Services.Authentications;
 using MuratBaloglu.Application.Repositories.AboutMeImageFileRepository;
 using MuratBaloglu.Application.Repositories.AboutMeRepository;
 using MuratBaloglu.Application.Repositories.BlogImageFileRepository;
@@ -13,6 +15,7 @@ using MuratBaloglu.Application.Repositories.SpecialityImageFileRepository;
 using MuratBaloglu.Application.Repositories.SpecialityRepository;
 using MuratBaloglu.Application.Repositories.VideoRepository;
 using MuratBaloglu.Application.Repositories.WorkingHourRepository;
+using MuratBaloglu.Domain.Entities.Identity;
 using MuratBaloglu.Persistence.Contexts;
 using MuratBaloglu.Persistence.Repositories.AboutMeImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.AboutMeRepository;
@@ -27,6 +30,7 @@ using MuratBaloglu.Persistence.Repositories.SpecialityImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.SpecialityRepository;
 using MuratBaloglu.Persistence.Repositories.VideoRepository;
 using MuratBaloglu.Persistence.Repositories.WorkingHourRepository;
+using MuratBaloglu.Persistence.Services;
 
 namespace MuratBaloglu.Persistence
 {
@@ -35,6 +39,20 @@ namespace MuratBaloglu.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<MuratBalogluDbContext>(options => options.UseSqlServer(Configuration.ConnectionString), ServiceLifetime.Scoped);
+
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<MuratBalogluDbContext>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
 
             services.AddScoped<IFileReadRepository, FileReadRepository>();
             services.AddScoped<IFileWriteRepository, FileWriteRepository>();

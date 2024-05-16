@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using MuratBaloglu.Persistence.Contexts;
 
 namespace MuratBaloglu.Persistence
