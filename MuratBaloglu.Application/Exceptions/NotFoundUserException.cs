@@ -2,7 +2,7 @@
 {
     public class NotFoundUserException : Exception
     {
-        public NotFoundUserException() : base("Bu e-posta adresiyle bir hesap bulamıyoruz.")
+        public NotFoundUserException() : base("Bu e-posta adresine sahip bir hesap bulamıyoruz.")
         {
         }
 

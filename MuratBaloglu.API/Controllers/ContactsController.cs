@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Models.Contact;
 using MuratBaloglu.Application.Repositories.ContactRepository;
@@ -43,6 +44,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(ContactAddModel contactAddModel)
         {
             if (ModelState.IsValid)

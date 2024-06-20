@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MuratBaloglu.Application.Abstractions.Storage;
-using MuratBaloglu.Application.Models.Blogs;
 using MuratBaloglu.Application.Models.Common;
 using MuratBaloglu.Application.Models.Specialties;
 using MuratBaloglu.Application.Repositories.SpecialityImageFileRepository;
@@ -162,6 +162,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(SpecialityAddModel specialityAddModel)
         {
             if (ModelState.IsValid)
@@ -196,6 +197,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -220,6 +222,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Put(SpecialityUpdateModel specialityUpdateModel)
         {
             if (ModelState.IsValid)

@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using MuratBaloglu.Application.Abstractions.Services;
 using MuratBaloglu.Application.DTOs.User;
 using MuratBaloglu.Domain.Entities.Identity;
@@ -38,6 +37,22 @@ namespace MuratBaloglu.Persistence.Services
                     response.Message += $"{error.Code} - {error.Description}\n";
 
             return response;
+        }
+
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
+        {
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+            await _userManager.UpdateAsync(user);
+
+            //if (user != null)
+            //{
+            //    user.RefreshToken = refreshToken;
+            //    user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+            //    await _userManager.UpdateAsync(user);
+            //}
+            //else
+            //    throw new NotFoundUserException("Refresh Token hatası. Bu kullanıcı ID ye sahip bir hesap bulamıyoruz.");
         }
     }
 }

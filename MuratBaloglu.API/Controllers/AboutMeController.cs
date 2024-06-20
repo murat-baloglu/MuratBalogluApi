@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Abstractions.Storage;
 using MuratBaloglu.Application.Models.AboutMe;
-using MuratBaloglu.Application.Models.SocialMediaAccounts;
 using MuratBaloglu.Application.Repositories.AboutMeImageFileRepository;
 using MuratBaloglu.Application.Repositories.AboutMeRepository;
 using MuratBaloglu.Domain.Entities;
@@ -56,6 +55,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> AddAboutMe(AboutMeAddModel aboutMeAddModel)
         {
             if (ModelState.IsValid)
@@ -85,6 +85,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> AddHomeAboutMe(AboutMeAddModel aboutMeAddModel)
         {
             if (ModelState.IsValid)

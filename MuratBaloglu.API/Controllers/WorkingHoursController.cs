@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Models.WorkingHours;
 using MuratBaloglu.Application.Repositories.WorkingHourRepository;
@@ -42,6 +43,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(WorkingHourAddModel workingHourAddModel)
         {
             if (ModelState.IsValid)

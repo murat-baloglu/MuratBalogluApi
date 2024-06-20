@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Models.Videos;
 using MuratBaloglu.Application.Repositories.VideoRepository;
@@ -44,6 +45,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(VideoAddModel videoAddModel)
         {
             if (ModelState.IsValid)
@@ -69,6 +71,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)

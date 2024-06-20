@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuratBaloglu.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using MuratBaloglu.Persistence.Contexts;
 namespace MuratBaloglu.Persistence.Migrations
 {
     [DbContext(typeof(MuratBalogluDbContext))]
-    partial class MuratBalogluDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240517154422_mig_4")]
+    partial class mig_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,7 +14,7 @@ namespace MuratBaloglu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Admin")]
+    //[Authorize(AuthenticationSchemes = "Admin")]
     public class BlogsController : ControllerBase
     {
         private readonly IBlogReadRepository _blogReadRepository;
@@ -145,6 +145,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(BlogAddModel blogAddModel)
         {
             if (ModelState.IsValid)
@@ -179,6 +180,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -203,6 +205,7 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Put(BlogUpdateModel blogUpdateModel)
         {
             if (ModelState.IsValid)
@@ -250,7 +253,7 @@ namespace MuratBaloglu.API.Controllers
             return Ok();
         }
 
-        [HttpPost("[action]")] //İlgili bloğa ait resimleri yüklemek için bu action ı kullanıyoruz.
+        [HttpPost("[action]")] //İlgili bloğa ait resimleri yüklemek için bu action ı kullanıyoruz.        
         public async Task<IActionResult> Upload(string id)
         {
             var result = await _storageService.UploadAsync("resources", Request.Form.Files);

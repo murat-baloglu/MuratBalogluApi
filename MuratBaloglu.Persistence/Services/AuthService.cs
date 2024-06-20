@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MuratBaloglu.Application.Abstractions.Services;
 using MuratBaloglu.Application.Abstractions.Token;
 using MuratBaloglu.Application.DTOs;
@@ -12,12 +14,16 @@ namespace MuratBaloglu.Persistence.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenHandler _tokenHandler;
+        private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IUserService userService, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenHandler = tokenHandler;
+            _userService = userService;
+            _configuration = configuration;
         }
 
         public async Task<Token> LoginAsync(string userNameOrEmail, string password, int accessTokenLifeTime)
@@ -38,10 +44,27 @@ namespace MuratBaloglu.Persistence.Services
             {
                 //Yetkileri belirlememiz gerekiyor! Authorization (Yetkilendirme işlemi burada başlıyor.) Token üretilir ve bu değer geriye döndürülür.
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, _configuration.GetValue<int>("Token:AddOnAccessTokenDate"));
+
                 return token;
             }
 
             throw new AuthenticationErrorException();
+        }
+
+        public async Task<Token> RefreshTokenLoginAsync(string refreshToken)
+        {
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            if (user != null && user.RefreshTokenEndDate > DateTime.Now)
+            {
+                Token token = _tokenHandler.CreateAccessToken(_configuration.GetValue<int>("Token:AccessTokenLifeTime"));
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, _configuration.GetValue<int>("Token:AddOnAccessTokenDate"));
+                return token;
+            }
+
+            throw new AuthenticationErrorException("Yetkisiz Erişim. Zaman Aşımı. Lütfen tekrar giriş yapınız.");
+            //throw new AuthenticationErrorException("Refresh token zaman aşımı. Yada bu kullanıcıya ait böyle bir refresh token yok.");
         }
     }
 }

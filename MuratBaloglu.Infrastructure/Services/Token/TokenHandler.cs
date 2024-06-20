@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using MuratBaloglu.Application.Abstractions.Token;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace MuratBaloglu.Infrastructure.Services.Token
@@ -39,7 +40,17 @@ namespace MuratBaloglu.Infrastructure.Services.Token
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
 
+            token.RefreshToken = CreateRefreshToken();
+
             return token;
+        }
+
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+            return Convert.ToBase64String(number);
         }
     }
 }
