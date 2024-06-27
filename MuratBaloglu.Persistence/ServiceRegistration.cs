@@ -11,6 +11,7 @@ using MuratBaloglu.Application.Repositories.ContactRepository;
 using MuratBaloglu.Application.Repositories.FileRepository;
 using MuratBaloglu.Application.Repositories.PatientCommentRepository;
 using MuratBaloglu.Application.Repositories.SocialMediaAccountRepository;
+using MuratBaloglu.Application.Repositories.SpecialityCategoryRepository;
 using MuratBaloglu.Application.Repositories.SpecialityImageFileRepository;
 using MuratBaloglu.Application.Repositories.SpecialityRepository;
 using MuratBaloglu.Application.Repositories.VideoRepository;
@@ -26,6 +27,7 @@ using MuratBaloglu.Persistence.Repositories.ContactRepository;
 using MuratBaloglu.Persistence.Repositories.FileRepository;
 using MuratBaloglu.Persistence.Repositories.PatientCommentRepository;
 using MuratBaloglu.Persistence.Repositories.SocialMediaAccountRepository;
+using MuratBaloglu.Persistence.Repositories.SpecialityCategoryRepository;
 using MuratBaloglu.Persistence.Repositories.SpecialityImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.SpecialityRepository;
 using MuratBaloglu.Persistence.Repositories.VideoRepository;
@@ -83,6 +85,8 @@ namespace MuratBaloglu.Persistence
             services.AddScoped<ISpecialityWriteRepository, SpecialityWriteRepository>();
             services.AddScoped<ISpecialityImageFileReadRepository, SpecialityImageFileReadRepository>();
             services.AddScoped<ISpecialityImageFileWriteRepository, SpecialityImageFileWriteRepository>();
+            services.AddScoped<ISpecialityCategoryReadRepository, SpecialityCategoryReadRepository>();
+            services.AddScoped<ISpecialityCategoryWriteRepository, SpecialityCategoryWriteRepository>();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace MuratBaloglu.Persistence.Contexts
 
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Speciality> Specialties { get; set; }
+        public DbSet<SpecialityCategory> SpecialityCategories { get; set; }
         public DbSet<Video> Videos { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<SocialMediaAccount> SocialMediaAccounts { get; set; }
@@ -60,6 +61,11 @@ namespace MuratBaloglu.Persistence.Contexts
                 .HasOne(sif => sif.Speciality)
                 .WithMany(s => s.SpecialityImageFiles)
                 .HasForeignKey(sif => sif.SpecialityId);
+
+            modelBuilder.Entity<Speciality>()
+               .HasOne(s => s.Category)
+               .WithMany(sc => sc.Specialties)
+               .HasForeignKey(s => s.CategoryId);
 
             modelBuilder.Entity<AboutMe>()
                 .HasOne(a => a.AboutMeImageFile)

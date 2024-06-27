@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MuratBaloglu.Application.Abstractions.Storage;
 using MuratBaloglu.Application.Models.Common;
+using MuratBaloglu.Application.Models.SpecialityCategory;
 using MuratBaloglu.Application.Models.Specialties;
+using MuratBaloglu.Application.Repositories.SpecialityCategoryRepository;
 using MuratBaloglu.Application.Repositories.SpecialityImageFileRepository;
 using MuratBaloglu.Application.Repositories.SpecialityRepository;
 using MuratBaloglu.Domain.Entities;
 using MuratBaloglu.Infrastructure.Operations;
+using MuratBaloglu.Persistence.Repositories.SpecialityCategoryRepository;
 using System.Reflection.Metadata;
 
 namespace MuratBaloglu.API.Controllers
@@ -21,6 +24,8 @@ namespace MuratBaloglu.API.Controllers
         private readonly ISpecialityWriteRepository _specialityWriteRepository;
         private readonly ISpecialityImageFileReadRepository _specialityImageFileReadRepository;
         private readonly ISpecialityImageFileWriteRepository _specialityImageFileWriteRepository;
+        private readonly ISpecialityCategoryReadRepository _specialityCategoryReadRepository;
+        private readonly ISpecialityCategoryWriteRepository _specialityCategoryWriteRepository;
         private readonly IStorageService _storageService;
         private readonly IConfiguration _configuration;
 
@@ -30,7 +35,9 @@ namespace MuratBaloglu.API.Controllers
             ISpecialityImageFileReadRepository specialityImageFileReadRepository,
             ISpecialityImageFileWriteRepository specialityImageFileWriteRepository,
             IStorageService storageService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ISpecialityCategoryReadRepository specialityCategoryReadRepository,
+            ISpecialityCategoryWriteRepository specialityCategoryWriteRepository)
         {
             _specialityReadRepository = specialityReadRepository;
             _specialityWriteRepository = specialityWriteRepository;
@@ -38,6 +45,8 @@ namespace MuratBaloglu.API.Controllers
             _specialityImageFileWriteRepository = specialityImageFileWriteRepository;
             _storageService = storageService;
             _configuration = configuration;
+            _specialityCategoryReadRepository = specialityCategoryReadRepository;
+            _specialityCategoryWriteRepository = specialityCategoryWriteRepository;
         }
 
         [HttpGet]
@@ -66,6 +75,37 @@ namespace MuratBaloglu.API.Controllers
                         Title = s.Title,
                         Context = s.Context,
                         CardContext = s.CardContext,
+                        DetailUrl = s.DetailUrl,
+                        //CreatedDate = s.CreatedDate,
+                        SpecialityImageFileId = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Id.ToString(),
+                        FileName = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).FileName,
+                        Path = $"{_configuration["BaseStorageUrl"]}/{s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Path}"
+                    }).OrderBy(x => x.Title);
+
+                var specialties = await query.ToListAsync();
+
+                return Ok(specialties);
+            }
+
+            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+        }
+
+        [HttpGet("[action]/{categoryUrl}")]
+        public async Task<IActionResult> GetSpecialtiesByCategoryWithCardImage(string categoryUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var query = _specialityReadRepository.Table
+                    .Include(s => s.SpecialityImageFiles)
+                    .Include(s => s.Category)
+                    .Where(s => s.Category.CategoryUrl == categoryUrl)
+                    .Select(s => new SpecialityWithCardImageModel
+                    {
+                        Id = s.Id.ToString(),
+                        Title = s.Title,
+                        Context = s.Context,
+                        CardContext = s.CardContext,
+                        CategoryName = s.Category.Name,
                         DetailUrl = s.DetailUrl,
                         //CreatedDate = s.CreatedDate,
                         SpecialityImageFileId = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Id.ToString(),
@@ -111,11 +151,35 @@ namespace MuratBaloglu.API.Controllers
         public async Task<IActionResult> GetSpecialityById(string id)
         {
             var speciality = await _specialityReadRepository.GetByIdAsync(id);
-            if (speciality is null)
+            var query = await _specialityReadRepository.Table
+                .Include(s => s.Category)
+                .Select(s => new
+                {
+                    Id = s.Id,
+                    CategoryId = s.CategoryId,
+                    CategoryName = s.Category.Name,
+                    Title = s.Title,
+                    Context = s.Context,
+                    CardContext = s.CardContext,
+                    DetailUrl = s.DetailUrl,
+                    CreatedDate = s.CreatedDate,
+                    UpdatedDate = s.UpdatedDate
+                })
+                .FirstOrDefaultAsync(s => s.Id == Guid.Parse(id));
+
+            if (query is null)
             {
-                return BadRequest("Uzmanlık güncellenirken bir hata ile karşılaşıldı ...");
+                return BadRequest("İlgili uzmanlık getirilemiyor ...");
             }
-            return Ok(speciality);
+
+            return Ok(query);
+
+            //var speciality = await _specialityReadRepository.GetByIdAsync(id);
+            //if (speciality is null)
+            //{
+            //    return BadRequest("Uzmanlık güncellenirken bir hata ile karşılaşıldı ...");
+            //}
+            //return Ok(speciality);
         }
 
         [HttpGet("[action]/{detailUrl}")]
@@ -169,6 +233,7 @@ namespace MuratBaloglu.API.Controllers
             {
                 Speciality speciality = new Speciality
                 {
+                    CategoryId = Guid.Parse(specialityAddModel.CategoryId),
                     Title = specialityAddModel.Title.Trim(),
                     Context = specialityAddModel.Context,
                     CardContext = specialityAddModel.CardContext,
@@ -190,7 +255,7 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(speciality);
                 }
                 else
-                    return BadRequest("Aynı uzmanlık başlığına sahip zaten bir uzmanlık var. Ya uzmanlık başlığını değiştiriniz yada aynı başlığa sahip uzmanlığı siliniz ...");
+                    return BadRequest("Aynı uzmanlık başlığına sahip zaten bir uzmanlık var ...");
             }
 
             return BadRequest("Uzmanlık Oluşturulurken bir hata ile karşılaşıldı ...");
@@ -228,9 +293,11 @@ namespace MuratBaloglu.API.Controllers
             if (ModelState.IsValid)
             {
                 Speciality speciality = await _specialityReadRepository.GetByIdAsync(specialityUpdateModel.Id);
+                speciality.CategoryId = Guid.Parse(specialityUpdateModel.CategoryId);
                 speciality.Title = specialityUpdateModel.Title.Trim();
                 speciality.CardContext = specialityUpdateModel.CardContext;
                 speciality.Context = specialityUpdateModel.Context;
+                speciality.DetailUrl = NameRegulatoryOperation.RegulateCharacters(specialityUpdateModel.Title);
 
                 await _specialityWriteRepository.SaveAsync();
 
@@ -238,6 +305,93 @@ namespace MuratBaloglu.API.Controllers
             }
 
             return BadRequest("Uzmanlık güncellenirken bir hata ile karşılaşıldı ...");
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<IActionResult> AddSpecialityCategory(SpecialityCategoryAddModel specialityCategoryAddModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SpecialityCategory specialityCategory = new SpecialityCategory()
+                {
+                    Name = specialityCategoryAddModel.Name.Trim(),
+                    CategoryUrl = NameRegulatoryOperation.RegulateCharacters(specialityCategoryAddModel.Name)
+                };
+
+                bool hasSpecialityCategory = await _specialityCategoryReadRepository.GetWhere(sc => sc.Name.Contains(specialityCategory.Name) || sc.CategoryUrl.Contains(specialityCategory.CategoryUrl)).AnyAsync();
+
+                if (!hasSpecialityCategory)
+                {
+                    await _specialityCategoryWriteRepository.AddAsync(specialityCategory);
+                    await _specialityCategoryWriteRepository.SaveAsync();
+
+                    return Ok(specialityCategory);
+                }
+                else
+                    return BadRequest("Aynı uzmanlık kategorine sahip zaten bir kategori var.");
+            }
+
+            return BadRequest("Uzmanlık kategorisi eklenirken bir hata ile karşılaşıldı ...");
+        }
+
+        [HttpPut("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<IActionResult> updateSpecialityCategory(SpecialityCategoryUpdateModel specialityCategoryUpdateModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SpecialityCategory? specialityCategory = await _specialityCategoryReadRepository.Table
+                    .Include(sc => sc.Specialties)
+                    .FirstOrDefaultAsync(sc => sc.Id == Guid.Parse(specialityCategoryUpdateModel.Id));
+
+                if (specialityCategory?.Specialties.Count > 0)
+                    return BadRequest("Bu kategoriye ait uzmanlıklar var. Bu yüzden güncelleme yapılamaz ...");
+
+
+                specialityCategory.Name = specialityCategoryUpdateModel.Name.Trim();
+                specialityCategory.CategoryUrl = NameRegulatoryOperation.RegulateCharacters(specialityCategoryUpdateModel.Name);
+
+                await _specialityCategoryWriteRepository.SaveAsync();
+
+                return Ok(specialityCategory);
+            }
+
+            return BadRequest("Uzmanlık kategorisi güncellenirken bir hata ile karşılaşıldı ...");
+        }
+
+        [HttpDelete("[action]/{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<IActionResult> DeleteSpecialityCategory(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                SpecialityCategory? specialityCategory = await _specialityCategoryReadRepository.Table
+                    .Include(sc => sc.Specialties)
+                    .FirstOrDefaultAsync(sc => sc.Id == Guid.Parse(id));
+
+                if (specialityCategory?.Specialties.Count > 0)
+                    return BadRequest("Bu kategoriye ait uzmanlıklar var. Bu yüzden silme işlemi yapılamaz ...");
+
+
+                await _specialityCategoryWriteRepository.RemoveAsync(id);
+                await _specialityCategoryWriteRepository.SaveAsync();
+                return Ok(new { Message = "Silme işlemi başarı ile gerçekleşmiştir." });
+            }
+
+            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetSpecialityCategories()
+        {
+            if (ModelState.IsValid)
+            {
+                var specialityCategories = await _specialityCategoryReadRepository.GetAll(false).OrderBy(sc => sc.Name).ToListAsync();
+                return Ok(specialityCategories);
+            }
+
+            return BadRequest("Uzmanlık kategorileri listelenirken bir hata ile karşılaşıldı ...");
         }
 
         [HttpPost("[action]")]

@@ -35,6 +35,7 @@ namespace MuratBaloglu.Infrastructure.Operations
                         .Replace("Ü", "u")
                         .Replace("ü", "u")
                         .Replace("ı", "i")
+                        .Replace("I", "i")
                         .Replace("İ", "i")
                         .Replace("ğ", "g")
                         .Replace("Ğ", "g")

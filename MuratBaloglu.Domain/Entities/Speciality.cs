@@ -9,6 +9,8 @@ namespace MuratBaloglu.Domain.Entities
             SpecialityImageFiles = new HashSet<SpecialityImageFile>();
         }
 
+        public Guid CategoryId { get; set; }
+
         public string Title { get; set; }
 
         public string Context { get; set; }
@@ -21,5 +23,6 @@ namespace MuratBaloglu.Domain.Entities
 
         //Navigation Properties
         public ICollection<SpecialityImageFile> SpecialityImageFiles { get; set; }
+        public SpecialityCategory Category { get; set; }
     }
 }
