@@ -90,6 +90,36 @@ namespace MuratBaloglu.API.Controllers
             return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
         }
 
+        [HttpGet("[action]/{categoryId}")]
+        public async Task<IActionResult> GetSpecialtiesByCategoryIdWithCardImage(string categoryId)
+        {
+            if (ModelState.IsValid)
+            {
+                var query = _specialityReadRepository.Table
+                    .Include(s => s.SpecialityImageFiles)
+                    .Where(s => s.CategoryId == Guid.Parse(categoryId))
+                    .Select(s => new SpecialityWithCardImageModel
+                    {
+                        Id = s.Id.ToString(),
+                        Title = s.Title,
+                        Context = s.Context,
+                        CardContext = s.CardContext,
+                        //CategoryName = s.Category.Name,
+                        DetailUrl = s.DetailUrl,
+                        //CreatedDate = s.CreatedDate,
+                        SpecialityImageFileId = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Id.ToString(),
+                        FileName = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).FileName,
+                        Path = $"{_configuration["BaseStorageUrl"]}/{s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Path}"
+                    }).OrderBy(x => x.Title);
+
+                var specialties = await query.ToListAsync();
+
+                return Ok(specialties);
+            }
+
+            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+        }
+
         [HttpGet("[action]/{categoryUrl}")]
         public async Task<IActionResult> GetSpecialtiesByCategoryWithCardImage(string categoryUrl)
         {
