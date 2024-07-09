@@ -214,6 +214,7 @@ namespace MuratBaloglu.API.Controllers
                 blog.Title = blogUpdateModel.Title.Trim();
                 blog.CardContext = blogUpdateModel.CardContext;
                 blog.Context = blogUpdateModel.Context;
+                blog.DetailUrl = NameRegulatoryOperation.RegulateCharacters(blogUpdateModel.Title);
 
                 await _blogWriteRepository.SaveAsync();
 

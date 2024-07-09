@@ -24,11 +24,13 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://drmuratbaloglu.com",
                            "https://drmuratbaloglu.com",
+                           "http://www.drmuratbaloglu.com",
+                           "https://www.drmuratbaloglu.com",
                            "http://localhost:7015",
                            "https://localhost:7015",
                            "http://localhost:4200",
                            "https://localhost:4200")
-        .AllowAnyHeader().AllowAnyMethod();
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
 

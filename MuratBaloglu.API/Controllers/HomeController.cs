@@ -73,7 +73,7 @@ namespace MuratBaloglu.API.Controllers
                     await _storageService.DeleteAsync("resources", fileName);
 
                     await _carouselImageFileWriteRepository.SaveAsync();
-                    return Ok(new { Message = "Silme işlemi başarı ile gerçekleşmiştir." });
+                    return Ok(new { Message = "Silme işlemi gerçekleşmiştir." });
                 }
             }
 
