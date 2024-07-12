@@ -18,6 +18,7 @@ namespace MuratBaloglu.Persistence.Contexts
         public DbSet<SpecialityImageFile> SpecialityImageFiles { get; set; }
         public DbSet<CarouselImageFile> CarouselImageFiles { get; set; }
         public DbSet<AboutMeImageFile> AboutMeImageFiles { get; set; }
+        public DbSet<NewsImageFile> NewsImageFiles { get; set; }
 
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Speciality> Specialties { get; set; }
@@ -28,6 +29,7 @@ namespace MuratBaloglu.Persistence.Contexts
         public DbSet<WorkingHour> WorkingHours { get; set; }
         public DbSet<PatientComment> PatientComments { get; set; }
         public DbSet<AboutMe> AboutMe { get; set; }
+        public DbSet<News> News { get; set; }
 
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -71,6 +73,11 @@ namespace MuratBaloglu.Persistence.Contexts
                 .HasOne(a => a.AboutMeImageFile)
                 .WithOne(aif => aif.AboutMe)
                 .HasForeignKey<AboutMeImageFile>(aif => aif.AboutMeId);
+
+            modelBuilder.Entity<News>()
+                .HasOne(n => n.NewsImageFile)
+                .WithOne(nif => nif.News)
+                .HasForeignKey<NewsImageFile>(nif => nif.NewsId);
         }
 
     }

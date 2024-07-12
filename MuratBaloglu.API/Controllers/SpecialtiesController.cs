@@ -11,8 +11,6 @@ using MuratBaloglu.Application.Repositories.SpecialityImageFileRepository;
 using MuratBaloglu.Application.Repositories.SpecialityRepository;
 using MuratBaloglu.Domain.Entities;
 using MuratBaloglu.Infrastructure.Operations;
-using MuratBaloglu.Persistence.Repositories.SpecialityCategoryRepository;
-using System.Reflection.Metadata;
 
 namespace MuratBaloglu.API.Controllers
 {
@@ -81,6 +79,34 @@ namespace MuratBaloglu.API.Controllers
                         FileName = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).FileName,
                         Path = $"{_configuration["BaseStorageUrl"]}/{s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Path}"
                     }).OrderBy(x => x.Title);
+
+                var specialties = await query.ToListAsync();
+
+                return Ok(specialties);
+            }
+
+            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetLastNineSpecialityWithCardImage()
+        {
+            if (ModelState.IsValid)
+            {
+                var query = _specialityReadRepository.Table
+                   .Include(s => s.SpecialityImageFiles)
+                   .Select(s => new SpecialityWithCardImageModel
+                   {
+                       Id = s.Id.ToString(),
+                       Title = s.Title,
+                       Context = s.Context,
+                       CardContext = s.CardContext,
+                       DetailUrl = s.DetailUrl,
+                       CreatedDate = s.CreatedDate,
+                       SpecialityImageFileId = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Id.ToString(),
+                       FileName = s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).FileName,
+                       Path = $"{_configuration["BaseStorageUrl"]}/{s.SpecialityImageFiles.Single(sif => sif.IsSpecialityCardImage).Path}"
+                   }).OrderByDescending(x => x.CreatedDate).Take(9);
 
                 var specialties = await query.ToListAsync();
 

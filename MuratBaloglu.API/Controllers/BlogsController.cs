@@ -173,7 +173,7 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(blog);
                 }
                 else
-                    return BadRequest("Aynı blog başlığına sahip zaten bir blog var. Ya blog başlığını değiştiriniz yada aynı başlığa sahip bloğu siliniz ...");
+                    return BadRequest("Aynı blog başlığına sahip zaten bir blog var ...");
             }
 
             return BadRequest("Blog Oluşturulurken bir hata ile karşılaşıldı ...");

@@ -8,7 +8,7 @@
         public string? CardContext { get; set; }
         public string? CategoryName { get; set; }
         public string? DetailUrl { get; set; }
-        //public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } //Sadece GetLastNineSpecialityWithCardImage metodunda sıralama yapılırken kullanılıyor.
         public string? SpecialityImageFileId { get; set; }
         public string? FileName { get; set; }
         public string? Path { get; set; }

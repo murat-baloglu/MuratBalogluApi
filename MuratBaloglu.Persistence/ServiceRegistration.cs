@@ -9,6 +9,8 @@ using MuratBaloglu.Application.Repositories.BlogRepository;
 using MuratBaloglu.Application.Repositories.CarouselImageFileRepository;
 using MuratBaloglu.Application.Repositories.ContactRepository;
 using MuratBaloglu.Application.Repositories.FileRepository;
+using MuratBaloglu.Application.Repositories.NewsImageFileRepository;
+using MuratBaloglu.Application.Repositories.NewsRepository;
 using MuratBaloglu.Application.Repositories.PatientCommentRepository;
 using MuratBaloglu.Application.Repositories.SocialMediaAccountRepository;
 using MuratBaloglu.Application.Repositories.SpecialityCategoryRepository;
@@ -25,6 +27,8 @@ using MuratBaloglu.Persistence.Repositories.BlogRepository;
 using MuratBaloglu.Persistence.Repositories.CarouselImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.ContactRepository;
 using MuratBaloglu.Persistence.Repositories.FileRepository;
+using MuratBaloglu.Persistence.Repositories.NewsImageFileRepository;
+using MuratBaloglu.Persistence.Repositories.NewsRepository;
 using MuratBaloglu.Persistence.Repositories.PatientCommentRepository;
 using MuratBaloglu.Persistence.Repositories.SocialMediaAccountRepository;
 using MuratBaloglu.Persistence.Repositories.SpecialityCategoryRepository;
@@ -87,6 +91,11 @@ namespace MuratBaloglu.Persistence
             services.AddScoped<ISpecialityImageFileWriteRepository, SpecialityImageFileWriteRepository>();
             services.AddScoped<ISpecialityCategoryReadRepository, SpecialityCategoryReadRepository>();
             services.AddScoped<ISpecialityCategoryWriteRepository, SpecialityCategoryWriteRepository>();
+
+            services.AddScoped<INewsReadRepository, NewsReadRepository>();
+            services.AddScoped<INewsWriteRepository, NewsWriteRepository>();
+            services.AddScoped<INewsImageFileReadRepository, NewsImageFileReadRepository>();
+            services.AddScoped<INewsImageFileWriteRepository, NewsImageFileWriteRepository>();
         }
     }
 }
