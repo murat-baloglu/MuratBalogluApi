@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.WorkingHours;
 using MuratBaloglu.Application.Repositories.WorkingHourRepository;
 using MuratBaloglu.Domain.Entities;
@@ -44,6 +47,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.WorkingHours, ActionType = ActionType.Writing, Definition = "Add or Update Working Hours")]
         public async Task<IActionResult> Post(WorkingHourAddModel workingHourAddModel)
         {
             if (ModelState.IsValid)

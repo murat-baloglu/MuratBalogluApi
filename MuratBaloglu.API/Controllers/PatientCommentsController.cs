@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.PatientComments;
 using MuratBaloglu.Application.Repositories.PatientCommentRepository;
 using MuratBaloglu.Domain.Entities;
@@ -47,6 +50,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Writing, Definition = "Add Patient Comment")]
         public async Task<IActionResult> Post(PatientCommentAddModel patientCommentAddModel)
         {
             if (ModelState.IsValid)
@@ -76,6 +80,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Deleting, Definition = "Delete Patient Comment")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -90,6 +95,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Updating, Definition = "Update Patient Comment")]
         public async Task<IActionResult> Put(PatientComment patientCommentModel)
         {
             if (ModelState.IsValid)

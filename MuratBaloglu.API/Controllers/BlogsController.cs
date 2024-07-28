@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MuratBaloglu.Application.Abstractions.Storage;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.Blogs;
 using MuratBaloglu.Application.Models.Common;
 using MuratBaloglu.Application.Repositories.BlogImageFileRepository;
@@ -146,6 +149,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Writing, Definition = "Add Blog")]
         public async Task<IActionResult> Post(BlogAddModel blogAddModel)
         {
             if (ModelState.IsValid)
@@ -181,6 +185,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Deleting, Definition = "Delete Blog")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -206,6 +211,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Updating, Definition = "Update Blog")]
         public async Task<IActionResult> Put(BlogUpdateModel blogUpdateModel)
         {
             if (ModelState.IsValid)

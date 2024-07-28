@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Abstractions.Storage;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.AboutMe;
 using MuratBaloglu.Application.Repositories.AboutMeImageFileRepository;
 using MuratBaloglu.Application.Repositories.AboutMeRepository;
@@ -56,6 +59,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Add or Update About Me")]
         public async Task<IActionResult> AddAboutMe(AboutMeAddModel aboutMeAddModel)
         {
             if (ModelState.IsValid)
@@ -86,6 +90,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Add or Update Home About Me")]
         public async Task<IActionResult> AddHomeAboutMe(AboutMeAddModel aboutMeAddModel)
         {
             if (ModelState.IsValid)

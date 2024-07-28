@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.Contact;
 using MuratBaloglu.Application.Repositories.ContactRepository;
 using MuratBaloglu.Domain.Entities;
@@ -45,6 +48,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Contacts, ActionType = ActionType.Writing, Definition = "Add or Update Contact")]
         public async Task<IActionResult> Post(ContactAddModel contactAddModel)
         {
             if (ModelState.IsValid)

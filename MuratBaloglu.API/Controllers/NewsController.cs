@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Abstractions.Storage;
-using MuratBaloglu.Application.Models.AboutMe;
-using MuratBaloglu.Application.Models.Blogs;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.News;
 using MuratBaloglu.Application.Repositories.NewsImageFileRepository;
 using MuratBaloglu.Application.Repositories.NewsRepository;
 using MuratBaloglu.Domain.Entities;
-using MuratBaloglu.Infrastructure.Operations;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MuratBaloglu.API.Controllers
 {
@@ -43,6 +42,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Writing, Definition = "Add News")]
         public async Task<IActionResult> Post(NewsAddModel newsAddModel)
         {
             if (ModelState.IsValid)
@@ -97,6 +97,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Updating, Definition = "Update News")]
         public async Task<IActionResult> Put(NewsUpdateModel newsUpdateModel)
         {
             if (ModelState.IsValid)
@@ -115,6 +116,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Deleting, Definition = "Delete News")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)

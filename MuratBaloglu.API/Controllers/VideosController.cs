@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.Videos;
 using MuratBaloglu.Application.Repositories.VideoRepository;
 using MuratBaloglu.Domain.Entities;
@@ -46,6 +49,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Writing, Definition = "Add Video")]
         public async Task<IActionResult> Post(VideoAddModel videoAddModel)
         {
             if (ModelState.IsValid)
@@ -72,6 +76,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Deleting, Definition = "Delete Video")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
