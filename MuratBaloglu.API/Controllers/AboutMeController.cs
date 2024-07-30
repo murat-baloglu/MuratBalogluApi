@@ -59,7 +59,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Add or Update About Me")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Hakkında Ekleme veya Güncelleme")]
         public async Task<IActionResult> AddAboutMe(AboutMeAddModel aboutMeAddModel)
         {
             if (ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Add or Update Home About Me")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Anasayfa Hakkında Ekleme veya Güncelleme")]
         public async Task<IActionResult> AddHomeAboutMe(AboutMeAddModel aboutMeAddModel)
         {
             if (ModelState.IsValid)

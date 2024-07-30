@@ -286,7 +286,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Add Speciality")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Uzmanlık Ekleme")]
         public async Task<IActionResult> Post(SpecialityAddModel specialityAddModel)
         {
             if (ModelState.IsValid)
@@ -323,7 +323,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Deleting, Definition = "Delete Speciality")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Deleting, Definition = "Uzmanlık Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -349,7 +349,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Updating, Definition = "Update Speciality")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Updating, Definition = "Uzmanlık Güncelleme")]
         public async Task<IActionResult> Put(SpecialityUpdateModel specialityUpdateModel)
         {
             if (ModelState.IsValid)
@@ -371,7 +371,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Add Speciality Category")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Uzmanlık Kategorisi Ekleme")]
         public async Task<IActionResult> AddSpecialityCategory(SpecialityCategoryAddModel specialityCategoryAddModel)
         {
             if (ModelState.IsValid)
@@ -400,7 +400,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Updating, Definition = "Update Speciality Category")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Updating, Definition = "Uzmanlık Kategorisi Güncelleme")]
         public async Task<IActionResult> UpdateSpecialityCategory(SpecialityCategoryUpdateModel specialityCategoryUpdateModel)
         {
             if (ModelState.IsValid)
@@ -426,7 +426,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("[action]/{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Deleting, Definition = "Delete Speciality Category")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Deleting, Definition = "Uzmanlık Kategorisi Silme")]
         public async Task<IActionResult> DeleteSpecialityCategory(string id)
         {
             if (ModelState.IsValid)

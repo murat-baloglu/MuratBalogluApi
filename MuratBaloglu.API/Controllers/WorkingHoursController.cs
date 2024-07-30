@@ -47,7 +47,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.WorkingHours, ActionType = ActionType.Writing, Definition = "Add or Update Working Hours")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.WorkingHours, ActionType = ActionType.Writing, Definition = "Çalışma Saatleri Ekleme veya Güncelleme")]
         public async Task<IActionResult> Post(WorkingHourAddModel workingHourAddModel)
         {
             if (ModelState.IsValid)

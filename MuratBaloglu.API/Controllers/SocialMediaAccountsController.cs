@@ -45,7 +45,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.SocialMediaAccounts, ActionType = ActionType.Writing, Definition = "Add or Update Social Media Account")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.SocialMediaAccounts, ActionType = ActionType.Writing, Definition = "Sosyal Medya Hesabı Ekleme veya Güncelleme")]
         public async Task<IActionResult> Post(SocialMediaAccountAddModel socialMediaAccountAddModel)
         {
             if (ModelState.IsValid)

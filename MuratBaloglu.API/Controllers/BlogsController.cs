@@ -149,7 +149,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Writing, Definition = "Add Blog")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Writing, Definition = "Blog Ekleme")]
         public async Task<IActionResult> Post(BlogAddModel blogAddModel)
         {
             if (ModelState.IsValid)
@@ -185,7 +185,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Deleting, Definition = "Delete Blog")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Deleting, Definition = "Blog Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -211,7 +211,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Updating, Definition = "Update Blog")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Updating, Definition = "Blog Güncelleme")]
         public async Task<IActionResult> Put(BlogUpdateModel blogUpdateModel)
         {
             if (ModelState.IsValid)

@@ -49,7 +49,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Writing, Definition = "Add Video")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Writing, Definition = "Video Ekleme")]
         public async Task<IActionResult> Post(VideoAddModel videoAddModel)
         {
             if (ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Deleting, Definition = "Delete Video")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Deleting, Definition = "Video Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)

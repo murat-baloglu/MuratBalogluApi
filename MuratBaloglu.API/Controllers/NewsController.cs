@@ -42,7 +42,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Writing, Definition = "Add News")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Writing, Definition = "Basından Ekleme")]
         public async Task<IActionResult> Post(NewsAddModel newsAddModel)
         {
             if (ModelState.IsValid)
@@ -97,7 +97,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Updating, Definition = "Update News")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Updating, Definition = "Basından Güncelleme")]
         public async Task<IActionResult> Put(NewsUpdateModel newsUpdateModel)
         {
             if (ModelState.IsValid)
@@ -116,7 +116,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Deleting, Definition = "Delete News")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Deleting, Definition = "Basından Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)

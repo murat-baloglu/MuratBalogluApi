@@ -48,7 +48,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Contacts, ActionType = ActionType.Writing, Definition = "Add or Update Contact")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Contacts, ActionType = ActionType.Writing, Definition = "İletişim Ekleme veya Güncelleme")]
         public async Task<IActionResult> Post(ContactAddModel contactAddModel)
         {
             if (ModelState.IsValid)

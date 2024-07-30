@@ -50,7 +50,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Writing, Definition = "Add Patient Comment")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Writing, Definition = "Hasta Yorumu Ekleme")]
         public async Task<IActionResult> Post(PatientCommentAddModel patientCommentAddModel)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Deleting, Definition = "Delete Patient Comment")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Deleting, Definition = "Hasta Yorumu Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -95,7 +95,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Updating, Definition = "Update Patient Comment")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.PatientComments, ActionType = ActionType.Updating, Definition = "Hasta Yorumu Güncelleme")]
         public async Task<IActionResult> Put(PatientComment patientCommentModel)
         {
             if (ModelState.IsValid)
