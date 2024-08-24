@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.Videos;
 using MuratBaloglu.Application.Repositories.VideoRepository;
 using MuratBaloglu.Domain.Entities;
@@ -29,7 +32,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(videos);
             }
 
-            return BadRequest("Videolar listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Videolar listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -41,11 +44,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(videos);
             }
 
-            return BadRequest("Videolar listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Videolar listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Writing, Definition = "Video Ekleme")]
         public async Task<IActionResult> Post(VideoAddModel videoAddModel)
         {
             if (ModelState.IsValid)
@@ -64,14 +68,15 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(video);
                 }
                 else
-                    return BadRequest("Aynı video başlığına sahip zaten bir video var. Ya video başlığını değiştiriniz yada aynı başlığa sahip videoyu siliniz ...");
+                    return BadRequest(new { Message = "Aynı video başlığına sahip zaten bir video var." });
             }
 
-            return BadRequest("Video Eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Video Eklenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Videos, ActionType = ActionType.Deleting, Definition = "Video Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -81,7 +86,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(new { Message = "Silme işlemi başarı ile gerçekleşmiştir." });
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
     }
 }

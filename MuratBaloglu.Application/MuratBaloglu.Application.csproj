@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\Storage\AWS\" />
-    <Folder Include="Features\Queries\" />
   </ItemGroup>
 
 </Project>

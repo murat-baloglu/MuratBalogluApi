@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.WorkingHours;
 using MuratBaloglu.Application.Repositories.WorkingHourRepository;
 using MuratBaloglu.Domain.Entities;
@@ -39,11 +42,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(workingHour);
             }
 
-            return BadRequest("Çalışma saatleri getirilemiyor ...");
+            return BadRequest(new { Message = "Çalışma saatleri getirilemiyor." });
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.WorkingHours, ActionType = ActionType.Writing, Definition = "Çalışma Saatleri Ekleme veya Güncelleme")]
         public async Task<IActionResult> Post(WorkingHourAddModel workingHourAddModel)
         {
             if (ModelState.IsValid)
@@ -82,7 +86,7 @@ namespace MuratBaloglu.API.Controllers
 
             }
 
-            return BadRequest("Çalışma saatleri eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Çalışma saatleri eklenirken bir hata ile karşılaşıldı." });
         }
     }
 }

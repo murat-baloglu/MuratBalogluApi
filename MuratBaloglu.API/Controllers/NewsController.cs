@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuratBaloglu.Application.Abstractions.Storage;
-using MuratBaloglu.Application.Models.AboutMe;
-using MuratBaloglu.Application.Models.Blogs;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.News;
 using MuratBaloglu.Application.Repositories.NewsImageFileRepository;
 using MuratBaloglu.Application.Repositories.NewsRepository;
 using MuratBaloglu.Domain.Entities;
-using MuratBaloglu.Infrastructure.Operations;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MuratBaloglu.API.Controllers
 {
@@ -43,6 +42,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Writing, Definition = "Basından Ekleme")]
         public async Task<IActionResult> Post(NewsAddModel newsAddModel)
         {
             if (ModelState.IsValid)
@@ -63,10 +63,10 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(news);
                 }
                 else
-                    return BadRequest("Aynı haber başlığına sahip zaten bir haber var ...");
+                    return BadRequest(new { Message = "Aynı basın başlığına sahip zaten bir haber var." });
             }
 
-            return BadRequest("Haber Oluşturulurken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Basın Oluşturulurken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -92,11 +92,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(news);
             }
 
-            return BadRequest("Haberler listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Basından listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Updating, Definition = "Basından Güncelleme")]
         public async Task<IActionResult> Put(NewsUpdateModel newsUpdateModel)
         {
             if (ModelState.IsValid)
@@ -110,11 +111,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(news);
             }
 
-            return BadRequest("Haber güncellenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Basından güncellenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Deleting, Definition = "Basından Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -132,10 +134,12 @@ namespace MuratBaloglu.API.Controllers
                 }
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Writing, Definition = "Haber İçin Resim Yükleme")]
         public async Task<IActionResult> UploadNewsImageForNews(string id)
         {
             var newsImageFile = await _newsImageFileReadRepository.GetSingleAsync(nif => nif.NewsId == Guid.Parse(id));

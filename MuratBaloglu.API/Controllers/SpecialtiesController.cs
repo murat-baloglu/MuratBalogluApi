@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MuratBaloglu.Application.Abstractions.Storage;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.Common;
 using MuratBaloglu.Application.Models.SpecialityCategory;
 using MuratBaloglu.Application.Models.Specialties;
@@ -57,7 +60,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialties);
             }
 
-            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlıklarım listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -85,7 +88,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialties);
             }
 
-            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlıklarım listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -113,7 +116,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialties);
             }
 
-            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlıklarım listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]/{categoryId}")]
@@ -143,7 +146,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialties);
             }
 
-            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlıklarım listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]/{categoryUrl}")]
@@ -174,7 +177,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialties);
             }
 
-            return BadRequest("Uzmanlıklarım listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlıklarım listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]/{id}")]
@@ -225,7 +228,7 @@ namespace MuratBaloglu.API.Controllers
 
             if (query is null)
             {
-                return BadRequest("İlgili uzmanlık getirilemiyor ...");
+                return BadRequest(new { Message = "İlgili uzmanlık getirilemiyor." });
             }
 
             return Ok(query);
@@ -283,6 +286,7 @@ namespace MuratBaloglu.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Uzmanlık Ekleme")]
         public async Task<IActionResult> Post(SpecialityAddModel specialityAddModel)
         {
             if (ModelState.IsValid)
@@ -311,14 +315,15 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(speciality);
                 }
                 else
-                    return BadRequest("Aynı uzmanlık başlığına sahip zaten bir uzmanlık var ...");
+                    return BadRequest(new { Message = "Aynı uzmanlık başlığına sahip zaten bir uzmanlık var." });
             }
 
-            return BadRequest("Uzmanlık Oluşturulurken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlık Oluşturulurken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Deleting, Definition = "Uzmanlık Silme")]
         public async Task<IActionResult> Delete(string id)
         {
             if (ModelState.IsValid)
@@ -339,11 +344,12 @@ namespace MuratBaloglu.API.Controllers
                 }
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Updating, Definition = "Uzmanlık Güncelleme")]
         public async Task<IActionResult> Put(SpecialityUpdateModel specialityUpdateModel)
         {
             if (ModelState.IsValid)
@@ -360,11 +366,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(speciality);
             }
 
-            return BadRequest("Uzmanlık güncellenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlık güncellenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Uzmanlık Kategorisi Ekleme")]
         public async Task<IActionResult> AddSpecialityCategory(SpecialityCategoryAddModel specialityCategoryAddModel)
         {
             if (ModelState.IsValid)
@@ -385,15 +392,16 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(specialityCategory);
                 }
                 else
-                    return BadRequest("Aynı uzmanlık kategorine sahip zaten bir kategori var.");
+                    return BadRequest(new { Message = "Aynı uzmanlık kategorine sahip zaten bir kategori var." });
             }
 
-            return BadRequest("Uzmanlık kategorisi eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlık kategorisi eklenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPut("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
-        public async Task<IActionResult> updateSpecialityCategory(SpecialityCategoryUpdateModel specialityCategoryUpdateModel)
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Updating, Definition = "Uzmanlık Kategorisi Güncelleme")]
+        public async Task<IActionResult> UpdateSpecialityCategory(SpecialityCategoryUpdateModel specialityCategoryUpdateModel)
         {
             if (ModelState.IsValid)
             {
@@ -402,7 +410,7 @@ namespace MuratBaloglu.API.Controllers
                     .FirstOrDefaultAsync(sc => sc.Id == Guid.Parse(specialityCategoryUpdateModel.Id));
 
                 if (specialityCategory?.Specialties.Count > 0)
-                    return BadRequest("Bu kategoriye ait uzmanlıklar var. Bu yüzden güncelleme yapılamaz ...");
+                    return BadRequest(new { Message = "Bu kategoriye ait uzmanlıklar var. Bu yüzden güncelleme yapılamaz." });
 
 
                 specialityCategory.Name = specialityCategoryUpdateModel.Name.Trim();
@@ -413,11 +421,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialityCategory);
             }
 
-            return BadRequest("Uzmanlık kategorisi güncellenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlık kategorisi güncellenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("[action]/{id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Deleting, Definition = "Uzmanlık Kategorisi Silme")]
         public async Task<IActionResult> DeleteSpecialityCategory(string id)
         {
             if (ModelState.IsValid)
@@ -427,7 +436,7 @@ namespace MuratBaloglu.API.Controllers
                     .FirstOrDefaultAsync(sc => sc.Id == Guid.Parse(id));
 
                 if (specialityCategory?.Specialties.Count > 0)
-                    return BadRequest("Bu kategoriye ait uzmanlıklar var. Bu yüzden silme işlemi yapılamaz ...");
+                    return BadRequest(new { Message = "Bu kategoriye ait uzmanlıklar var. Bu yüzden silme işlemi yapılamaz." });
 
 
                 await _specialityCategoryWriteRepository.RemoveAsync(id);
@@ -435,7 +444,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(new { Message = "Silme işlemi başarı ile gerçekleşmiştir." });
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -447,10 +456,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(specialityCategories);
             }
 
-            return BadRequest("Uzmanlık kategorileri listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Uzmanlık kategorileri listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Specialties, ActionType = ActionType.Writing, Definition = "Uzmanlık Kartı İçin Resim Yükleme")]
         public async Task<IActionResult> UploadSpecialityImageForSpecialityCard(string id)
         {
             var specialityImageFiles = _specialityImageFileReadRepository.GetWhere(sif => sif.SpecialityId == Guid.Parse(id) && sif.IsSpecialityCardImage);

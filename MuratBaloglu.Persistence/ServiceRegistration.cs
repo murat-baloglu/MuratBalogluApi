@@ -8,7 +8,9 @@ using MuratBaloglu.Application.Repositories.BlogImageFileRepository;
 using MuratBaloglu.Application.Repositories.BlogRepository;
 using MuratBaloglu.Application.Repositories.CarouselImageFileRepository;
 using MuratBaloglu.Application.Repositories.ContactRepository;
+using MuratBaloglu.Application.Repositories.EndpointRepository;
 using MuratBaloglu.Application.Repositories.FileRepository;
+using MuratBaloglu.Application.Repositories.MenuRepository;
 using MuratBaloglu.Application.Repositories.NewsImageFileRepository;
 using MuratBaloglu.Application.Repositories.NewsRepository;
 using MuratBaloglu.Application.Repositories.PatientCommentRepository;
@@ -26,7 +28,9 @@ using MuratBaloglu.Persistence.Repositories.BlogImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.BlogRepository;
 using MuratBaloglu.Persistence.Repositories.CarouselImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.ContactRepository;
+using MuratBaloglu.Persistence.Repositories.EndpointRepository;
 using MuratBaloglu.Persistence.Repositories.FileRepository;
+using MuratBaloglu.Persistence.Repositories.MenuRepository;
 using MuratBaloglu.Persistence.Repositories.NewsImageFileRepository;
 using MuratBaloglu.Persistence.Repositories.NewsRepository;
 using MuratBaloglu.Persistence.Repositories.PatientCommentRepository;
@@ -56,9 +60,15 @@ namespace MuratBaloglu.Persistence
             }).AddEntityFrameworkStores<MuratBalogluDbContext>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IInternalAuthentication, AuthService>();
             services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IAuthorizationEndpointService, AuthorizationEndpointService>();
+            services.AddScoped<IMenuReadRepository, MenuReadRepository>();
+            services.AddScoped<IMenuWriteRepository, MenuWriteRepository>();
+            services.AddScoped<IEndpointReadRepository, EndpointReadRepository>();
+            services.AddScoped<IEndpointWriteRepository, EndpointWriteRepository>();
 
             services.AddScoped<IFileReadRepository, FileReadRepository>();
             services.AddScoped<IFileWriteRepository, FileWriteRepository>();

@@ -43,7 +43,7 @@ namespace MuratBaloglu.Persistence.Services
             if (result.Succeeded) //Authentication basarili! (Doğrulama süreci burada bitiyor.)
             {
                 //Yetkileri belirlememiz gerekiyor! Authorization (Yetkilendirme işlemi burada başlıyor.) Token üretilir ve bu değer geriye döndürülür.
-                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
 
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, _configuration.GetValue<int>("Token:AddOnAccessTokenDate"));
 
@@ -58,7 +58,7 @@ namespace MuratBaloglu.Persistence.Services
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
             if (user != null && user.RefreshTokenEndDate > DateTime.Now)
             {
-                Token token = _tokenHandler.CreateAccessToken(_configuration.GetValue<int>("Token:AccessTokenLifeTime"));
+                Token token = _tokenHandler.CreateAccessToken(_configuration.GetValue<int>("Token:AccessTokenLifeTime"), user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, _configuration.GetValue<int>("Token:AddOnAccessTokenDate"));
                 return token;
             }

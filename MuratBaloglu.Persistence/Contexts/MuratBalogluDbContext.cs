@@ -30,6 +30,8 @@ namespace MuratBaloglu.Persistence.Contexts
         public DbSet<PatientComment> PatientComments { get; set; }
         public DbSet<AboutMe> AboutMe { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Endpoint> Endpoints { get; set; }
 
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -78,6 +80,11 @@ namespace MuratBaloglu.Persistence.Contexts
                 .HasOne(n => n.NewsImageFile)
                 .WithOne(nif => nif.News)
                 .HasForeignKey<NewsImageFile>(nif => nif.NewsId);
+
+            modelBuilder.Entity<Endpoint>()
+                .HasOne(e => e.Menu)
+                .WithMany(m => m.Endpoints)
+                .HasForeignKey(e => e.MenuId);
         }
 
     }

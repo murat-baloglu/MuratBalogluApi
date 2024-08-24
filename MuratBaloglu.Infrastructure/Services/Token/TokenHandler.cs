@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MuratBaloglu.Application.Abstractions.Token;
+using MuratBaloglu.Domain.Entities.Identity;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -16,7 +18,7 @@ namespace MuratBaloglu.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public Application.DTOs.Token CreateAccessToken(int accessTokenLifeTime) //second olarak
+        public Application.DTOs.Token CreateAccessToken(int accessTokenLifeTime, AppUser user) //second olarak
         {
             Application.DTOs.Token token = new Application.DTOs.Token();
 
@@ -33,7 +35,8 @@ namespace MuratBaloglu.Infrastructure.Services.Token
                 issuer: _configuration["Token:Issuer"],
                 expires: token.Expiration,
                 notBefore: DateTime.Now,
-                signingCredentials: signingCredentials
+                signingCredentials: signingCredentials,
+                claims: new List<Claim> { new Claim(ClaimTypes.Name, user.UserName) }
                 );
 
             //Token oluşturucu sınıfından bir örnek alalım.

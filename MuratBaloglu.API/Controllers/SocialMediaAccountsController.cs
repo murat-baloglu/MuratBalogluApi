@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Consts;
+using MuratBaloglu.Application.CustomAttributes;
+using MuratBaloglu.Application.Enums;
 using MuratBaloglu.Application.Models.SocialMediaAccounts;
 using MuratBaloglu.Application.Repositories.SocialMediaAccountRepository;
 using MuratBaloglu.Domain.Entities;
@@ -37,11 +40,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(socialMediaAccount);
             }
 
-            return BadRequest("Sosyal medya hesapları getirilemiyor ...");
+            return BadRequest(new { Message = "Sosyal medya hesapları getirilemiyor." });
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.SocialMediaAccounts, ActionType = ActionType.Writing, Definition = "Sosyal Medya Hesabı Ekleme veya Güncelleme")]
         public async Task<IActionResult> Post(SocialMediaAccountAddModel socialMediaAccountAddModel)
         {
             if (ModelState.IsValid)
@@ -76,7 +80,7 @@ namespace MuratBaloglu.API.Controllers
 
             }
 
-            return BadRequest("Sosyal medya hesapları eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Sosyal medya hesapları eklenirken bir hata ile karşılaşıldı." });
         }
     }
 }
