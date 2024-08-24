@@ -40,7 +40,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(socialMediaAccount);
             }
 
-            return BadRequest("Sosyal medya hesapları getirilemiyor ...");
+            return BadRequest(new { Message = "Sosyal medya hesapları getirilemiyor." });
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace MuratBaloglu.API.Controllers
 
             }
 
-            return BadRequest("Sosyal medya hesapları eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Sosyal medya hesapları eklenirken bir hata ile karşılaşıldı." });
         }
     }
 }

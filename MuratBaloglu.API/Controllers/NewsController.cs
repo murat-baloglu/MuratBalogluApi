@@ -63,10 +63,10 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(news);
                 }
                 else
-                    return BadRequest("Aynı haber başlığına sahip zaten bir haber var ...");
+                    return BadRequest(new { Message = "Aynı basın başlığına sahip zaten bir haber var." });
             }
 
-            return BadRequest("Haber Oluşturulurken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Basın Oluşturulurken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -92,7 +92,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(news);
             }
 
-            return BadRequest("Haberler listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Basından listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPut]
@@ -111,7 +111,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(news);
             }
 
-            return BadRequest("Haber güncellenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Basından güncellenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
@@ -134,10 +134,12 @@ namespace MuratBaloglu.API.Controllers
                 }
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.News, ActionType = ActionType.Writing, Definition = "Haber İçin Resim Yükleme")]
         public async Task<IActionResult> UploadNewsImageForNews(string id)
         {
             var newsImageFile = await _newsImageFileReadRepository.GetSingleAsync(nif => nif.NewsId == Guid.Parse(id));

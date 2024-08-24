@@ -42,7 +42,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(workingHour);
             }
 
-            return BadRequest("Çalışma saatleri getirilemiyor ...");
+            return BadRequest(new { Message = "Çalışma saatleri getirilemiyor." });
         }
 
         [HttpPost]
@@ -86,7 +86,7 @@ namespace MuratBaloglu.API.Controllers
 
             }
 
-            return BadRequest("Çalışma saatleri eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Çalışma saatleri eklenirken bir hata ile karşılaşıldı." });
         }
     }
 }

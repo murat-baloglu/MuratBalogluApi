@@ -177,10 +177,10 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(blog);
                 }
                 else
-                    return BadRequest("Aynı blog başlığına sahip zaten bir blog var ...");
+                    return BadRequest(new { Message = "Aynı blog başlığına sahip zaten bir blog var." });
             }
 
-            return BadRequest("Blog Oluşturulurken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Blog Oluşturulurken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
@@ -206,7 +206,7 @@ namespace MuratBaloglu.API.Controllers
                 }
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
 
         [HttpPut]
@@ -227,10 +227,12 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(blog);
             }
 
-            return BadRequest("Blog güncellenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Blog güncellenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Blogs, ActionType = ActionType.Writing, Definition = "Blog Kartı İçin Resim Yükleme")]
         public async Task<IActionResult> UploadBlogImageForBlogCard(string id)
         {
             var blogImageFiles = _blogImageFileReadRepository.GetWhere(bif => bif.BlogId == Guid.Parse(id) && bif.IsBlogCardImage);

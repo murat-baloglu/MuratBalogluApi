@@ -5,6 +5,7 @@ using MuratBaloglu.Application.Abstractions.Services.Configurations;
 using MuratBaloglu.Application.CustomAttributes;
 using MuratBaloglu.Application.DTOs.Configurations;
 using MuratBaloglu.Application.Enums;
+using MuratBaloglu.Infrastructure.Operations;
 using System.Reflection;
 
 namespace MuratBaloglu.Infrastructure.Services.Configurations
@@ -57,7 +58,7 @@ namespace MuratBaloglu.Infrastructure.Services.Configurations
                                     else
                                         _action.HttpType = HttpMethods.Get;
 
-                                    _action.Code = $"{_action.HttpType}.{_action.ActionType}.{_action.Definition.Replace(" ", "")}";
+                                    _action.Code = $"{_action.HttpType}.{_action.ActionType}.{NameRegulatoryOperation.RegulateCharactersSmallVersion(_action.Definition)}";
 
                                     menu?.Actions.Add(_action);
                                 }

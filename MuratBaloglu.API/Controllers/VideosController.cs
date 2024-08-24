@@ -32,7 +32,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(videos);
             }
 
-            return BadRequest("Videolar listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Videolar listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -44,7 +44,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(videos);
             }
 
-            return BadRequest("Videolar listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Videolar listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost]
@@ -68,10 +68,10 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(video);
                 }
                 else
-                    return BadRequest("Aynı video başlığına sahip zaten bir video var. Ya video başlığını değiştiriniz yada aynı başlığa sahip videoyu siliniz ...");
+                    return BadRequest(new { Message = "Aynı video başlığına sahip zaten bir video var." });
             }
 
-            return BadRequest("Video Eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Video Eklenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
@@ -86,7 +86,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(new { Message = "Silme işlemi başarı ile gerçekleşmiştir." });
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
     }
 }

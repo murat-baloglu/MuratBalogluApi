@@ -33,7 +33,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(patientComments);
             }
 
-            return BadRequest("Hasta Yorumları listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Hasta Yorumları listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -45,7 +45,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(patientComments);
             }
 
-            return BadRequest("Hasta Yorumları listelenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Hasta Yorumları listelenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost]
@@ -72,10 +72,10 @@ namespace MuratBaloglu.API.Controllers
                     return Ok(patientComment);
                 }
                 else
-                    return BadRequest("Aynı hasta ismine ve yorumuna sahip zaten bir hasta yorumu var. Lütfen tekrar kontrol ediniz ...");
+                    return BadRequest(new { Message = "Aynı hasta ismine ve yorumuna sahip zaten bir hasta yorumu var. Lütfen tekrar kontrol ediniz." });
             }
 
-            return BadRequest("Hasta yorumu eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Hasta yorumu eklenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpDelete("{id}")]
@@ -90,7 +90,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(new { Message = "Silme işlemi başarı ile gerçekleşmiştir." });
             }
 
-            return BadRequest("Silme aşamasında bir sorun ile karşılaşıldı..");
+            return BadRequest(new { Message = "Silme aşamasında bir sorun ile karşılaşıldı." });
         }
 
         [HttpPut]
@@ -110,7 +110,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(patientComment);
             }
 
-            return BadRequest("Hasta yorumu güncellenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Hasta yorumu güncellenirken bir hata ile karşılaşıldı." });
         }
     }
 }

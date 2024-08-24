@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Configuration;
 using MuratBaloglu.Application.Abstractions.Services.Authentications;
 using MuratBaloglu.Application.DTOs;

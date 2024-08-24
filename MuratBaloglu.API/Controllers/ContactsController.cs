@@ -43,7 +43,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(contact);
             }
 
-            return BadRequest("İletişim bilgileri getirilemiyor ...");
+            return BadRequest(new { Message = "İletişim bilgileri getirilemiyor." });
         }
 
         [HttpPost]
@@ -89,7 +89,7 @@ namespace MuratBaloglu.API.Controllers
 
             }
 
-            return BadRequest("İletişim bilgileri eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "İletişim bilgileri eklenirken bir hata ile karşılaşıldı." });
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using MuratBaloglu.Domain.Entities;
-
-namespace MuratBaloglu.Infrastructure.Operations
+﻿namespace MuratBaloglu.Infrastructure.Operations
 {
     public static class NameRegulatoryOperation
     {
@@ -58,6 +56,17 @@ namespace MuratBaloglu.Infrastructure.Operations
                 name = name.Substring(0, name.Length - 1);
             }
 
+            return name;
+        }
+
+        public static string RegulateCharactersSmallVersion(string? name)
+        {
+            if (name is null)
+                return string.Empty;
+
+            name = name.Replace(" ", "").Replace("ö", "o").Replace("Ö", "o").Replace("Ü", "u").Replace("ü", "u")
+                .Replace("ı", "i").Replace("I", "i").Replace("İ", "i").Replace("ğ", "g").Replace("Ğ", "g")
+                .Replace("ş", "s").Replace("Ş", "s").Replace("Ç", "c").Replace("ç", "c");
             return name;
         }
 

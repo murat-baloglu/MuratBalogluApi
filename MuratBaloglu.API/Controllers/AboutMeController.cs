@@ -85,7 +85,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(aboutMeAddModel);
             }
 
-            return BadRequest("Hakkında eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Hakkında eklenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpPost("[action]")]
@@ -116,7 +116,7 @@ namespace MuratBaloglu.API.Controllers
                 return Ok(aboutMeAddModel);
             }
 
-            return BadRequest("Anasayfadaki hakkında yazısı eklenirken bir hata ile karşılaşıldı ...");
+            return BadRequest(new { Message = "Anasayfadaki hakkında yazısı eklenirken bir hata ile karşılaşıldı." });
         }
 
         [HttpGet("[action]")]
@@ -136,6 +136,8 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AboutMe, ActionType = ActionType.Writing, Definition = "Anasayfa Hakkında Resmi Ekle Yada Değiştirme")]
         public async Task<IActionResult> Upload()
         {
             var query = await _aboutMeReadRepository.GetAll(false).FirstOrDefaultAsync();

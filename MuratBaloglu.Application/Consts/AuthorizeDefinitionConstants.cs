@@ -2,6 +2,9 @@
 {
     public static class AuthorizeDefinitionConstants
     {
+        public const string ApplicationServices = "Uygulama Servisleri";
+        public const string AuthorizationEndpoints = "Yetkilendirme Endpointleri";
+        public const string Users = "Kullanıcılar";
         public const string AboutMe = "Hakkında";
         public const string Blogs = "Bloglar";
         public const string Contacts = "İletişim";

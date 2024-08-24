@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.IdentityModel.Tokens;
+using MuratBaloglu.API.Filters;
 using MuratBaloglu.Application;
 using MuratBaloglu.Infrastructure;
 using MuratBaloglu.Infrastructure.Services.Storage.Azure;
 using MuratBaloglu.Infrastructure.Services.Storage.Local;
 using MuratBaloglu.Persistence;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +38,10 @@ builder.Services.AddCors(options =>
 
 //builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<RolePermissionFilter>();
+});
 //builder.Services.AddControllers(options =>
 //{
 //    options.Filters.Add<ValidationFilter>();
@@ -61,7 +66,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidAudience = builder.Configuration["Token:Audience"],
         ValidIssuer = builder.Configuration["Token:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
-        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false
+        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false,
+
+        NameClaimType = ClaimTypes.Name //JWT üzerinden Name claimine karþýlýk gelen deðeri User.Identity.Name propertysinden elede edebiliriz.
     };
 });
 

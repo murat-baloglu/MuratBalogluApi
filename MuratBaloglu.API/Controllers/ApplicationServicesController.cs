@@ -20,12 +20,18 @@ namespace MuratBaloglu.API.Controllers
         }
 
         [HttpGet]
-        [AuthorizeDefinition(Menu = "Application Services", ActionType = ActionType.Reading, Definition = "Yetkilendirme Tanımını Endpointlerini Getirme")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.ApplicationServices, ActionType = ActionType.Reading, Definition = "Yetkilendirme Menüsünü (Tüm Endpointleri) Getirme")]
         public IActionResult GetAuthorizeDefinitionEndpoints()
         {
-            var datas = _applicationService.GetAuthorizeDefinitionEndpoints(typeof(Program));
-
-            return Ok(datas);
+            try
+            {
+                var datas = _applicationService.GetAuthorizeDefinitionEndpoints(typeof(Program));
+                return Ok(datas);
+            }
+            catch
+            {
+                return BadRequest(new { Message = "Yetkilendirme Menüsü listelenirken bir hata ile karşılaşıldı." });
+            }
         }
     }
 }
