@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MuratBaloglu.Application.Abstractions.Services;
 using MuratBaloglu.Application.Consts;
 using MuratBaloglu.Application.CustomAttributes;
 using MuratBaloglu.Application.Enums;
+using MuratBaloglu.Application.Models;
 using MuratBaloglu.Application.Models.Contact;
 using MuratBaloglu.Application.Repositories.ContactRepository;
 using MuratBaloglu.Domain.Entities;
@@ -16,11 +18,13 @@ namespace MuratBaloglu.API.Controllers
     {
         private readonly IContactReadRepository _contactReadRepository;
         private readonly IContactWriteRepository _contactWriteRepository;
+        private readonly IMailService _mailService;
 
-        public ContactsController(IContactReadRepository contactReadRepository, IContactWriteRepository contactWriteRepository)
+        public ContactsController(IContactReadRepository contactReadRepository, IContactWriteRepository contactWriteRepository, IMailService emailService)
         {
             _contactReadRepository = contactReadRepository;
             _contactWriteRepository = contactWriteRepository;
+            _mailService = emailService;
         }
 
         [HttpGet]
@@ -90,6 +94,26 @@ namespace MuratBaloglu.API.Controllers
             }
 
             return BadRequest(new { Message = "İletişim bilgileri eklenirken bir hata ile karşılaşıldı." });
+        }
+
+        [HttpPost("send-email")]
+        public async Task<IActionResult> SendEmailAsync(MailModel mail)
+        {
+            mail.Phone = mail.Phone != "" ? mail.Phone : "Telefon numarası girilmemiş";
+
+            string body;
+            body = "<strong>Mesajı gönderen:</strong>" + "<br>";
+            body += "Ad Soyad: " + mail.FullName + "<br>";
+            body += "E-posta: " + mail.Email + "<br>";
+            body += "Telefon: " + mail.Phone + "<br>";
+            body += "Tarih: " + DateTime.Now.ToString("dd MMMM yyyy HH:mm:ss") + "<br>";
+            body += $"<p>{mail.Message}</p>" + "<br>";
+
+            mail.Subject = "Murat Baloğlu Web Sitesi İletişim Formundan Gelen Mesajınız Var.";
+
+            await _mailService.SendMailAsync(mail.Subject, body);
+
+            return Ok();
         }
     }
 }
