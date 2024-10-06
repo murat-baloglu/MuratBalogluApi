@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MuratBaloglu.Application.Abstractions.Services;
+using MuratBaloglu.Application.Abstractions.Services.Caching;
 using MuratBaloglu.Application.Abstractions.Services.Configurations;
 using MuratBaloglu.Application.Abstractions.Storage;
 using MuratBaloglu.Application.Abstractions.Token;
 using MuratBaloglu.Infrastructure.Enums;
 using MuratBaloglu.Infrastructure.Services;
+using MuratBaloglu.Infrastructure.Services.Caching;
 using MuratBaloglu.Infrastructure.Services.Configurations;
 using MuratBaloglu.Infrastructure.Services.Storage;
 using MuratBaloglu.Infrastructure.Services.Storage.Azure;
@@ -22,6 +24,7 @@ namespace MuratBaloglu.Infrastructure
             services.AddScoped<ITokenHandler, TokenHandler>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IMailService, MailService>();
+            services.AddSingleton<ICacheService, CacheService>();
         }
 
         //Bunu kullan. Clean Code olan bu.
